@@ -87,6 +87,34 @@ namespace RageLib.GTA5.Cryptography.Helpers
             return result;
         }
 
+        public static GTA5NGLUT[][] ReadNgLuts(string fileName)
+        {
+            FileStream fileStream = new FileStream(fileName, FileMode.Open);
+            DataReader dataReader = new DataReader(fileStream, Endianess.LittleEndian);
+            GTA5NGLUT[][] array = new GTA5NGLUT[17][];
+            for (int i = 0; i < 17; i++)
+            {
+                array[i] = new GTA5NGLUT[16];
+                for (int j = 0; j < 16; j++)
+                {
+                    array[i][j] = new GTA5NGLUT();
+                    array[i][j].LUT0 = new byte[256][];
+                    for (int k = 0; k < 256; k++)
+                    {
+                        array[i][j].LUT0[k] = dataReader.ReadBytes(256);
+                    }
+                    array[i][j].LUT1 = new byte[256][];
+                    for (int l = 0; l < 256; l++)
+                    {
+                        array[i][j].LUT1[l] = dataReader.ReadBytes(256);
+                    }
+                    array[i][j].Indices = dataReader.ReadBytes(65536);
+                }
+            }
+            fileStream.Close();
+            return array;
+        }
+
         public static void WriteNgTables(string fileName, uint[][][] tableData)
         {
             var fs = new FileStream(fileName, FileMode.Create);

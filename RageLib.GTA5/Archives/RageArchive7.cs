@@ -326,7 +326,7 @@ namespace RageLib.GTA5.Archives
                 ent_buf = AesEncryption.EncryptData(ent_buf, aesKey);
             if (Encryption == RageArchiveEncryption7.NG)
             {
-                Encryption = RageArchiveEncryption7.None;
+                ent_buf = GTA5Crypto.Encrypt(ent_buf, ngKey);
             }
 
 
@@ -345,8 +345,15 @@ namespace RageLib.GTA5.Archives
             n_str.Position = 0;
             n_str.Read(n_buf, 0, n_buf.Length);
 
-            if (Encryption == RageArchiveEncryption7.AES)
-                n_buf = AesEncryption.EncryptData(n_buf, aesKey);
+            switch (Encryption)
+            {
+                case RageArchiveEncryption7.AES:
+                    n_buf = AesEncryption.EncryptData(n_buf, aesKey);
+                    break;
+                case RageArchiveEncryption7.NG:
+                    n_buf = GTA5Crypto.Encrypt(n_buf, ngKey);
+                    break;
+            }
             
             writer.Position = 0;
             writer.Write((uint)IDENT);
