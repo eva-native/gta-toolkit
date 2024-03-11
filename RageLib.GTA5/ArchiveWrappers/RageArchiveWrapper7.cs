@@ -399,6 +399,8 @@ namespace RageLib.GTA5.ArchiveWrappers
             }
         }
 
+        public IArchive Archive { get => archiveWrapper; set => archiveWrapper = (RageArchiveWrapper7)value; }
+
         internal RageArchiveDirectoryWrapper7(RageArchiveWrapper7 archiveWrapper, RageArchiveDirectory7 directory)
         {
             this.archiveWrapper = archiveWrapper;
