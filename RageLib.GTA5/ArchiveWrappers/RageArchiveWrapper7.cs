@@ -122,14 +122,6 @@ namespace RageLib.GTA5.ArchiveWrappers
 
         }
 
-
-
-
-
-
-
-
-
         private long GetHeaderSize()
         {
             long len = 16;
@@ -528,7 +520,7 @@ namespace RageLib.GTA5.ArchiveWrappers
         /// </summary>
         public void DeleteFile(IArchiveFile file)
         {
-            throw new NotImplementedException();
+            directory.Files.RemoveAll(f => f.Name == file.Name);
         }
 
         public void Dispose()
